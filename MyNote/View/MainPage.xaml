@@ -1,0 +1,181 @@
+﻿<Page
+    x:Class="MyNote.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyNote"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <local:TitleConverter x:Key="TitleConverter" />
+        <local:ShowDetailConverter x:Key="ShowDetailConverter" />
+        <SolidColorBrush x:Key="ListBoxItemSeprateLineBrush" Color="#FFBEBEBE"/>
+        <SolidColorBrush x:Key="LabelTextColor" Color="#FF007A2E" />
+    </Page.Resources>
+    <i:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{Binding LoadNoteCommand}"/>
+        </core:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <!--页面布局自适应-->
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowMasterState">
+                    <VisualState.StateTriggers>
+                        <local:MasterDetailTrigger WindowWidth="720" ViewState="NarrowMasterState" ShowDetailView="{Binding SelectedNote,Converter={StaticResource ShowDetailConverter}}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MasterColumn.Width" Value="*" />
+                        <Setter Target="DetailColumn.Width" Value="0" />
+                        <Setter Target="MasterGrid.BorderThickness" Value="0"/>
+                    </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="MasterGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="MasterGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" From="-100" To="0" Duration="0:0:0.3">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState x:Name="NarrowDetailState">
+                    <VisualState.StateTriggers>
+                        <local:MasterDetailTrigger WindowWidth="720" ViewState="NarrowDetailState" ShowBackKey="True" ShowDetailView="{Binding SelectedNote,Converter={StaticResource ShowDetailConverter}}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MasterColumn.Width" Value="0" />
+                        <Setter Target="DetailColumn.Width" Value="*" />
+                        <Setter Target="MasterGrid.BorderThickness" Value="0"/>
+                    </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="DetailGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="DetailGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" From="100" To="0" Duration="0:0:0.3">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <local:MasterDetailTrigger WindowWidth="720" ViewState="WideState" ShowDetailView="{Binding SelectedNote,Converter={StaticResource ShowDetailConverter}}"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideBlankState">
+                    <VisualState.StateTriggers>
+                        <local:MasterDetailTrigger WindowWidth="720" ViewState="WideBlankState" ShowDetailView="{Binding SelectedNote,Converter={StaticResource ShowDetailConverter}}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="Blank.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Blank" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="Blank" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" From="100" To="0" Duration="0:0:0.3">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="MasterColumn" Width="360"/>
+                <ColumnDefinition x:Name="DetailColumn" />
+            </Grid.ColumnDefinitions>
+            <!--列表页-->
+            <Grid Grid.Column="0" Name="MasterGrid" BorderBrush="{StaticResource ListBoxItemSeprateLineBrush}" BorderThickness="0,0,1,0">
+                <Grid.RenderTransform>
+                    <CompositeTransform/>
+                </Grid.RenderTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ListBoxItemSeprateLineBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="记事项" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="10,3,0,3" Foreground="{StaticResource LabelTextColor}"/>
+                    <HyperlinkButton Grid.Column="1" VerticalAlignment="Bottom" FontSize="18" Margin="0,0,6,6" Foreground="{StaticResource LabelTextColor}">
+                        <TextBlock Text="+记事" />
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Click">
+                                <core:InvokeCommandAction Command="{Binding NewNoteCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </HyperlinkButton>
+                </Grid>
+                <ListBox Grid.Row="1" Name="List" ItemsSource="{Binding NoteList}" SelectedItem="{Binding SelectedNote, Mode=TwoWay}" Background="White">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <!--设置ListBoxItem内容填充整个Listbox宽度-->
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <!--绘制分割线条，恢复ListBoxItem内容原边距-->
+                            <StackPanel Padding="12,11,12,13" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ListBoxItemSeprateLineBrush}" RightTapped="StackPanel_RightTapped" Holding="StackPanel_Holding">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem Padding="18,8,18,8" Text="删除记事" Command="{Binding Path=DataContext.DeleteCommand,ElementName=List}"/>
+                                        <MenuFlyoutItem Padding="18,8,18,8" Text="固定到开始屏幕" Command="{Binding Path=DataContext.PinCommand,ElementName=List}"/>
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                                <TextBlock Text="{Binding Title,Converter={StaticResource TitleConverter}}"  FontSize="15" FontWeight="Bold"/>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Detail}" Foreground="#FF333333" MaxLines="2" FontSize="13" Margin="6,0,0,10"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <!--详情页-->
+            <Grid Grid.Column="1" Name="DetailGrid" DataContext="{Binding SelectedNote}">
+                <Grid.RenderTransform>
+                    <CompositeTransform/>
+                </Grid.RenderTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" BorderThickness="0,0,0,1" PlaceholderText="标题" Margin="10,19,10,10" FontSize="20" Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="32"></TextBox>
+                <TextBlock Grid.Row="1" Margin="20,0,20,0" Foreground="Gray" FontSize="13" Text="{Binding Time}"></TextBlock>
+                <TextBox Grid.Row="2" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,10,10,10" VerticalAlignment="Stretch" Text="{Binding Detail,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="1000"/>
+            </Grid>
+            <TextBlock Grid.Column="1" Name="Blank" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Text="开始记录吧！" FontSize="18"  Foreground="#FFB2B2B2" FontWeight="Light">
+                <TextBlock.RenderTransform>
+                    <CompositeTransform/>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</Page>

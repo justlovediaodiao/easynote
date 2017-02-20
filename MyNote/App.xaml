@@ -1,0 +1,23 @@
+﻿<Application
+    x:Class="MyNote.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyNote"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--更改ListBoxItem默认画笔-->
+            <SolidColorBrush x:Key="SystemControlHighlightListAccentHighBrush" Color="#FFE5E5E5" />
+            <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#FFE5E5E5" />
+            <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#FFE5E5E5" />
+            <SolidColorBrush x:Key="SystemControlHighlightListMediumBrush" Color="#FFF4F4F4" />
+            <SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="#FFF4F4F4" />
+            <!--更改HyperLinkButton默认画笔-->
+            <SolidColorBrush x:Key="SystemControlHyperlinkBaseMediumBrush" Color="#FF1E75BB" />
+            <SolidColorBrush x:Key="SystemControlHighlightBaseMediumLowBrush" Color="#FF00188F" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/MenuItemStyle" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
